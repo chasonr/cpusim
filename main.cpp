@@ -43,6 +43,7 @@ private:
     void OnStepOver(wxCommandEvent& event);
     void OnReturn(wxCommandEvent& event);
     void OnExit(wxCommandEvent& event);
+    void OnClearCycles(wxCommandEvent& event);
     void OnAbout(wxCommandEvent& event);
     void OnUpdateAll(wxEvent& event);
 
@@ -54,6 +55,8 @@ private:
     DisassemblyWindow *disassembly;
     std::vector<MemDumpWindow *> zones;
     MemDumpWindow *memoryWin;
+    wxBoxSizer *m_cycles_sizer;
+    wxStaticText *m_cycles;
 
     wxDECLARE_EVENT_TABLE();
 };
@@ -65,7 +68,8 @@ enum
     ID_StepOver = 3,
     ID_Return = 4,
     ID_CodeGoto = 5,
-    ID_MemGoto = 6
+    ID_MemGoto = 6,
+    ID_ClearCycles = 7
 };
 
 static void setBold(wxWindow *window);
@@ -73,6 +77,7 @@ static void setBold(wxWindow *window);
 wxDEFINE_EVENT(wxEVT_UPDATE_ALL, wxEvent);
 
 wxBEGIN_EVENT_TABLE(CPUSimFrame, wxFrame)
+    EVT_BUTTON(ID_ClearCycles, CPUSimFrame::OnClearCycles)
     EVT_CUSTOM(wxEVT_UPDATE_ALL, wxID_ANY, CPUSimFrame::OnUpdateAll)
 wxEND_EVENT_TABLE()
 
@@ -89,7 +94,9 @@ CPUSimFrame::CPUSimFrame() :
     cpu(new CPU6502(memory)),
     registers(nullptr),
     disassembly(nullptr),
-    memoryWin(nullptr)
+    memoryWin(nullptr),
+    m_cycles_sizer(nullptr),
+    m_cycles(nullptr)
 {
     wxMenu *menuFile = new wxMenu;
     menuFile->Append(ID_Load, "&Load...\tCtrl-L",
@@ -144,7 +151,18 @@ CPUSimFrame::CPUSimFrame() :
     auto *sizer0 = new wxBoxSizer(wxHORIZONTAL);
 
     auto sizer1 = new wxBoxSizer(wxVERTICAL);
-    auto label = new wxStaticText(this, wxID_ANY, "Registers");
+    auto label = new wxStaticText(this, wxID_ANY, "Cycles");
+    setBold(label);
+    sizer1->Add(label, 0);
+    m_cycles_sizer = new wxBoxSizer(wxHORIZONTAL);
+    m_cycles = new wxStaticText(this, wxID_ANY, "         0",
+            wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT);
+    m_cycles_sizer->Add(m_cycles, 1, wxALIGN_CENTER_VERTICAL);
+    m_cycles_sizer->AddSpacer(5);
+    auto clear = new wxButton(this, ID_ClearCycles, "Clear");
+    m_cycles_sizer->Add(clear, 0);
+    sizer1->Add(m_cycles_sizer, 0, wxEXPAND);
+    label = new wxStaticText(this, wxID_ANY, "Registers");
     setBold(label);
     sizer1->Add(label, 0);
     registers = new RegisterWindow(this, cpu);
@@ -194,6 +212,12 @@ CPUSimFrame::CPUSimFrame() :
 void CPUSimFrame::OnExit(wxCommandEvent& event)
 {
     Close(true);
+}
+ 
+void CPUSimFrame::OnClearCycles(wxCommandEvent& event)
+{
+    cpu->ClearEmuCycles();
+    UpdateAll();
 }
  
 void CPUSimFrame::OnAbout(wxCommandEvent& event)
@@ -287,6 +311,10 @@ CPUSimFrame::OnUpdateAll(wxEvent& event)
 void
 CPUSimFrame::UpdateAll(void)
 {
+    char buf[30];
+    std::snprintf(buf, sizeof(buf), "%10lu", cpu->GetEmuCycles());
+    m_cycles->SetLabel(buf);
+    m_cycles_sizer->Layout();
     registers->Update();
     disassembly->Update();
     for (auto z = zones.begin(); z != zones.end(); ++z) {

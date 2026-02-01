@@ -29,6 +29,9 @@ public:
     virtual Disasm Disassemble(std::uint64_t address) const override;
     virtual Assem Assemble(std::uint64_t pc, const std::string& code) const override;
 
+    virtual unsigned long GetEmuCycles(void) const override;
+    virtual void ClearEmuCycles(void) override;
+
 private:
     void *impl;
 };

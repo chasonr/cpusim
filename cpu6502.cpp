@@ -346,6 +346,20 @@ CPU6502::Assemble(std::uint64_t pc, const std::string& code) const
     return impl_->Assemble(pc, code);
 }
 
+unsigned long
+CPU6502::GetEmuCycles(void) const
+{
+    auto impl_ = reinterpret_cast<CPU6502Impl *>(impl);
+    return impl_->emu_cycles;
+}
+
+void
+CPU6502::ClearEmuCycles(void)
+{
+    auto impl_ = reinterpret_cast<CPU6502Impl *>(impl);
+    impl_->emu_cycles = 0;
+}
+
 namespace {
 
 // TODO: Provide an enumeration at the constructor, to choose among variant

@@ -61,6 +61,9 @@ public:
     };
     virtual Assem Assemble(std::uint64_t pc, const std::string& code) const = 0;
 
+    virtual unsigned long GetEmuCycles(void) const = 0;
+    virtual void ClearEmuCycles(void) = 0;
+
     void SetBreakpoint(std::uint64_t addr);
     void ClearBreakpoint(std::uint64_t addr);
     bool HasBreakpoint(std::uint64_t addr, unsigned count) const;
