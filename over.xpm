@@ -1,0 +1,25 @@
+/* XPM */
+static const char *const over_xpm[] = {
+/* columns rows colors chars-per-pixel */
+"16 15 3 1",
+"  c None",
+"R c Red",
+"B c Black",
+/* pixels */
+"                ",
+"                ",
+"                ",
+"                ",
+"   BBBBBBB      ",
+"  B       B     ",
+" B         B    ",
+"B           B   ",
+"B           B   ",
+"B    RRR  BBBBB ",
+"B   RRRRR  BBB  ",
+"B   RRRRR   B   ",
+"    RRRRR       ",
+"     RRR        ",
+"                ",
+"                ",
+};

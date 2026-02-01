@@ -1,0 +1,25 @@
+/* XPM */
+static const char *const open_xpm[] = {
+/* columns rows colors chars-per-pixel */
+"16 16 3 1",
+"  c None",
+"Y c #FFFF00",
+"B c Black",
+/* pixels */
+"                ",
+"                ",
+"BBBBBBBBBB      ",
+"BYYYYYYYYYBBBB  ",
+"BYYYYYYYYYYYYB  ",
+"BYYYYYYYYYYYYB  ",
+"BYBBBBBBBBBBBBBB",
+"BYBYYYYYYYYYYYYB",
+"BYBYYYYYYYYYYYYB",
+"BBYYYYYYYYYYYYB ",
+"BBYYYYYYYYYYYYB ",
+"BYYYYYYYYYYYYYB ",
+"BYYYYYYYYYYYYB  ",
+"BBBBBBBBBBBBBB  ",
+"                ",
+"                ",
+};

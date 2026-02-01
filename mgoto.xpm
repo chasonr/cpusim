@@ -1,0 +1,25 @@
+/* XPM */
+static const char *const mgoto_xpm[] = {
+/* columns rows colors chars-per-pixel */
+"16 15 3 1",
+"  c None",
+"L c Blue",
+"B c Black",
+/* pixels */
+"                ",
+"                ",
+"        B  B  B ",
+"        B B B B ",
+"        B  B  B ",
+"    L           ",
+"    LL  B  B  B ",
+"LLLLLLL B B B B ",
+"    LL  B  B  B ",
+"    L           ",
+"        B  B  B ",
+"        B B B B ",
+"        B  B  B ",
+"                ",
+"                ",
+"                ",
+};
